@@ -31,6 +31,7 @@ Why this, why now (Sep 2026, verified): ~89.5% of AI-built apps ship with vulner
 
 ## Deploy flow
 - Repo `panda-quick-01/shipcheck`, branch `main`, Dokploy app `7-21mEOcP-_PkhiNDhw2i`.
+- Postgres `dGLDFavT5VMwWna5QDWmZ` (`shipcheck-db3`) in same env, linked via `DATABASE_URL` app env. Store falls back to SQLite if unreachable (visible in `/api/health`).
 - Staging host: `shipcheck.mini.beer` → `3000` (live 2026-09-09).
 - Push → `POST /api/application.deploy` → verify `/api/health` → check Cloudflare headers (`server: cloudflare` + `cf-ray`).
 
