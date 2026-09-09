@@ -28,7 +28,8 @@ Why this, why now (Sep 2026, verified): ~89.5% of AI-built apps ship with vulner
 - Customer-facing copy NEVER mentions processors, compliance, or regulators.
 
 ## Deploy flow
-- Repo: TBD (`panda-quick-01/shipcheck`), branch `main`. Staging host: `shipcheck.mini.beer` → `3000`.
+- Repo `panda-quick-01/shipcheck`, branch `main`, Dokploy app `7-21mEOcP-_PkhiNDhw2i`.
+- Staging host: `shipcheck.mini.beer` → `3000` (live 2026-09-09).
 - Push → `POST /api/application.deploy` → verify `/api/health` → check Cloudflare headers (`server: cloudflare` + `cf-ray`).
 
 ## Identity checkpoints (need the human, on return)
