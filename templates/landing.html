@@ -4,52 +4,43 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shipcheck — will your AI-built app survive its first user?</title>
-<meta name="description" content="Paste your URL, get a real public-surface security scan in seconds. Deep audit $99, rescue $299, care $79/mo. Pay after delivery.">
+<meta name="description" content="Paste your URL, get a real public-surface security scan in seconds. Watch it weekly. Deep audit $99, rescue $299, care $79/mo. Pay after delivery.">
 <script src="https://cdn.tailwindcss.com"></script>
-<style>
-:root{--bg:#0A0E13;--panel:#10161E;--line:#1E2836;--ink:#E8EEF5;--mut:#8B98AB;--grn:#34D399;--red:#F87171;--amb:#FBBF24}
-body{background:var(--bg);color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px}
-.btn{display:inline-block;padding:10px 18px;border-radius:8px;font-weight:700}
-.btn-grn{background:var(--grn);color:#06281C}.btn-ghost{border:1px solid var(--line);color:var(--ink)}
-.mut{color:var(--mut)}
-input.url{width:100%;background:#0D1219;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:12px 14px;font-family:inherit}
-.sev-critical{color:var(--red);font-weight:700}.sev-high{color:var(--amb);font-weight:700}.sev-medium{color:var(--amb)}.sev-low{color:var(--mut)}
-.finding{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px}
-.finding code{color:var(--grn)}
-.check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;cursor:pointer}
-.check input{margin-top:3px;accent-color:var(--grn)}
-form.intake input,form.intake textarea,form.intake select{width:100%;background:#0D1219;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:10px 12px;font-size:.9rem;font-family:inherit}
-pre.report{background:#0D1219;border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font-size:.8rem}
-details{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px}
-summary{cursor:pointer;font-weight:700}
-.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--grn);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-2px}
-@keyframes sp{to{transform:rotate(360deg)}}
-</style>
+<link rel="stylesheet" href="/static/style.css">
 </head>
 <body class="max-w-4xl mx-auto px-5 py-10">
 <header class="flex items-center justify-between mb-8">
 <div class="font-bold text-lg">$ shipcheck<span class="mut">_</span></div>
-<nav class="text-sm mut"><a href="#scan" class="mr-4 hover:text-white">live scan</a><a href="#sample" class="mr-4 hover:text-white">sample report</a><a href="#pricing" class="mr-4 hover:text-white">pricing</a><a href="#intake" class="hover:text-white">get audited</a></nav>
+<nav class="text-sm mut"><a href="#scan" class="mr-4 hover:text-white">live scan</a><a href="#watch" class="mr-4 hover:text-white">watch</a><a href="#sample" class="mr-4 hover:text-white">sample</a><a href="#pricing" class="mr-4 hover:text-white">pricing</a><a href="#intake" class="hover:text-white">get audited</a></nav>
 </header>
 
 <section class="panel p-8 mb-6">
 <p class="mut text-sm mb-2">GO-LIVE SECURITY FOR AI-BUILT APPS</p>
 <h1 class="text-3xl md:text-4xl font-bold mb-3">Paste your URL.<br>See what attackers see.</h1>
-<p class="mut mb-5">A real scan of your public surface — TLS, headers, CORS, exposed files — in seconds, free. Then decide if you want the deep audit before your first real user.</p>
+<p class="mut mb-5">A real scan of your public surface — TLS, headers, CORS, JS-bundle secrets, exposed files, builder fingerprints — in seconds, free.</p>
 <div id="scan" class="flex flex-col md:flex-row gap-3">
 <input id="scanUrl" class="url" placeholder="https://your-app.com" inputmode="url">
 <button id="scanBtn" class="btn btn-grn whitespace-nowrap" onclick="runScan()">Scan my site</button>
 </div>
 <div id="scanOut" class="mt-4 text-sm"></div>
-<p class="mut text-xs mt-3">Read-only checks against your public pages only. Rate-limited. Nothing stored.</p>
+<p class="mut text-xs mt-3">{{ stats.scans }} scans run · {{ stats.fail_pct }}% come back FAIL · read-only, rate-limited, nothing stored.</p>
+</section>
+
+<section id="watch" class="panel p-8 mb-6" style="border-color:var(--grn)">
+<h2 class="text-xl font-bold mb-1">Don't scan once. Watch it.</h2>
+<p class="mut text-sm mb-4">Register your host — weekly automatic re-scans, full history, grade trend. Founding cohort: <b class="text-white">free while in beta</b>, $29/mo at launch. One key, no account.</p>
+<div class="flex flex-col md:flex-row gap-3">
+<input id="watchHost" class="url" placeholder="your-app.com">
+<button id="watchBtn" class="btn btn-grn whitespace-nowrap" onclick="watch()">Start watching</button>
+</div>
+<div id="watchOut" class="mt-4 text-sm"></div>
 </section>
 
 <section class="panel p-8 mb-6">
 <h2 class="text-xl font-bold mb-1">What the free scan covers — and what it can't</h2>
 <div class="grid md:grid-cols-2 gap-4 text-sm mt-3">
-<div><p class="font-bold mb-2" style="color:var(--grn)">✓ Covered live above</p><ul class="mut"><li>· TLS / HTTPS enforcement</li><li>· 5 security headers (HSTS, CSP, framing, sniffing, referrer)</li><li>· CORS misconfiguration probe</li><li>· Exposed <code>/.env</code>, <code>/.git/HEAD</code>, server-status</li></ul></div>
-<div><p class="font-bold mb-2" style="color:var(--amb)">✗ Needs the $99 deep audit</p><ul class="mut"><li>· Database access rules (the #1 AI-app leak)</li><li>· Secrets hidden in your frontend bundle</li><li>· Auth / ownership logic on your APIs</li><li>· Storage bucket permissions</li></ul></div>
+<div><p class="font-bold mb-2" style="color:var(--grn)">✓ Covered live above</p><ul class="mut"><li>· TLS / HTTPS enforcement</li><li>· 5 security headers + referrer + version leaks</li><li>· CORS misconfiguration probe</li><li>· Secrets mined from your JS bundles</li><li>· Exposed <code>/.env</code>, <code>/.git/HEAD</code>, server-status, source maps</li><li>· Builder + backend fingerprinting</li></ul></div>
+<div><p class="font-bold mb-2" style="color:var(--amb)">✗ Needs the $99 deep audit</p><ul class="mut"><li>· Database access rules (the #1 AI-app leak)</li><li>· Secrets in private repos / server code</li><li>· Auth / ownership logic behind login</li><li>· Storage bucket permissions</li></ul></div>
 </div>
 </section>
 
@@ -69,7 +60,6 @@ summary{cursor:pointer;font-weight:700}
   fix: ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
        CREATE POLICY "own rows only" ON public.orders
        FOR SELECT TO authenticated USING ((select auth.uid()) = user_id);
-       <span class="mut">(+ same pattern for the other two — full SQL in report)</span>
 <span class="sev-high">[HIGH] Stripe secret key in frontend bundle</span>
   where: static/js/main.4f2a.js (ships to every visitor)
   fix: move to server route, rotate the key in Stripe dashboard now.
@@ -81,25 +71,25 @@ summary{cursor:pointer;font-weight:700}
 
 <section id="pricing" class="panel p-8 mb-6">
 <h2 class="text-xl font-bold mb-1">Fixed prices. Pay after delivery.</h2>
-<p class="mut text-sm mb-4">No card upfront. The report (or the fix) arrives first — if it wasn't worth it, don't pay. First paid tier starts the 48-hour clock.</p>
+<p class="mut text-sm mb-4">No card upfront. The report (or the fix) arrives first — if it wasn't worth it, don't pay.</p>
 <div class="grid md:grid-cols-3 gap-4">
 <div class="panel p-5"><p class="mut text-xs mb-1">DEEP AUDIT</p><p class="text-3xl font-bold">$99</p><p class="mut text-sm mb-3">one-time · 48h report</p><ul class="text-sm mut mb-4"><li>· Everything the free scan misses</li><li>· Severity-ranked findings + fixes</li><li>· Copy-paste prompts for your AI tool</li><li>· Re-check of one fix round included</li></ul><a class="btn btn-grn text-sm" href="#intake">Get audited</a></div>
 <div class="panel p-5" style="border-color:var(--grn)"><p class="mut text-xs mb-1">RESCUE — MOST WANTED</p><p class="text-3xl font-bold">$299</p><p class="mut text-sm mb-3">we fix it · 48h or free</p><ul class="text-sm mut mb-4"><li>· Everything in Audit</li><li>· Fixes applied with you, verified</li><li>· Before/after proof log</li><li>· Launch-day support window</li></ul><a class="btn btn-grn text-sm" href="#intake">Get rescued</a></div>
-<div class="panel p-5"><p class="mut text-xs mb-1">CARE</p><p class="text-3xl font-bold">$79<span class="text-base mut">/mo</span></p><p class="mut text-sm mb-3">stay shipped, stay shut</p><ul class="text-sm mut mb-4"><li>· Uptime + monthly re-scan</li><li>· 1 scoped fix / month included</li><li>· New-feature review on request</li><li>· Cancel anytime</li></ul><a class="btn btn-ghost text-sm" href="#intake">Stay covered</a></div>
+<div class="panel p-5"><p class="mut text-xs mb-1">CARE</p><p class="text-3xl font-bold">$79<span class="text-base mut">/mo</span></p><p class="mut text-sm mb-3">stay shipped, stay shut</p><ul class="text-sm mut mb-4"><li>· Watch monitoring included</li><li>· 1 scoped fix / month included</li><li>· New-feature review on request</li><li>· Cancel anytime</li></ul><a class="btn btn-ghost text-sm" href="#intake">Stay covered</a></div>
 </div>
 </section>
 
 <section class="panel p-8 mb-6">
 <h2 class="text-xl font-bold mb-4">How it works</h2>
-<ol class="text-sm mut"><li class="mb-2"><b class="text-white">1. Request</b> — form below, 60 seconds. Reference ID back instantly.</li><li class="mb-2"><b class="text-white">2. Scope in 24h</b> — we confirm what's covered and start the clock.</li><li class="mb-2"><b class="text-white">3. Report or fix in 48h</b> — audit lands as a document; rescue lands as merged fixes + proof. Late = free.</li><li><b class="text-white">4. Pay after delivery</b> — invoice with the goods. Care attaches only if you want it.</li></ol>
+<ol class="text-sm mut"><li class="mb-2"><b class="text-white">1. Scan free</b> — above, 10 seconds. Watch it weekly, also free in beta.</li><li class="mb-2"><b class="text-white">2. Request</b> — form below, 60 seconds. Reference ID back instantly.</li><li class="mb-2"><b class="text-white">3. Scope in 24h</b> — we confirm what's covered and start the clock.</li><li><b class="text-white">4. Report or fix in 48h, pay after</b> — late = free.</li></ol>
 </section>
 
 <section class="panel p-8 mb-6">
 <h2 class="text-xl font-bold mb-4">Fair questions</h2>
-<details><summary>Free scanners already exist. Why pay?</summary><p class="mut text-sm mt-2">Scanners flag; they don't fix, verify, or own the outcome. You pay for the confirmed report, the applied fixes, the re-check proof, and someone to blame at 2am before launch. The free scan above shows our standard — the paid work is everything it can't reach.</p></details>
-<details><summary>What access do you need?</summary><p class="mut text-sm mt-2">Audit: read-only wherever possible (repo read access or a code snapshot, plus a test account). Rescue: a scoped way to apply fixes (PR to your repo, or paired session). Never your production secrets — rotated keys only.</p></details>
-<details><summary>What if my app comes back clean?</summary><p class="mut text-sm mt-2">You get a proof-of-clean report you can show users and customers — worth the $99 alone — plus the month's re-check free if you take Care.</p></details>
-<details><summary>What does "48h or free" actually mean?</summary><p class="mut text-sm mt-2">Clock starts when we confirm scope. Audit report or rescue fixes delivered past 48 hours = you don't pay. Weekends count; we'll say so upfront if your scope needs longer before you commit.</p></details>
+<details><summary>Free scanners already exist. Why pay?</summary><p class="mut text-sm mt-2">Scanners flag; they don't fix, verify, or own the outcome. You pay for the confirmed report, the applied fixes, the re-check proof, and continuous watching that catches the next deploy's regression.</p></details>
+<details><summary>What access do you need?</summary><p class="mut text-sm mt-2">Audit: read-only wherever possible (repo read access or a code snapshot, plus a test account). Rescue: a scoped way to apply fixes (PR to your repo, or paired session). Never your production secrets.</p></details>
+<details><summary>What if my app comes back clean?</summary><p class="mut text-sm mt-2">You get a proof-of-clean report you can show users and customers — plus the month's re-check free if you take Care.</p></details>
+<details><summary>What does "48h or free" actually mean?</summary><p class="mut text-sm mt-2">Clock starts when we confirm scope. Past 48 hours = you don't pay. We'll say upfront if your scope needs longer, before you commit.</p></details>
 </section>
 
 <section id="intake" class="panel p-8 mb-6">
@@ -115,7 +105,7 @@ summary{cursor:pointer;font-weight:700}
 <div class="mt-4"><button class="btn btn-grn text-sm" type="submit">Send audit request</button></div>
 </form>
 <div id="intakeOut" class="mt-3 text-sm"></div>
-<noscript><p class="mut text-sm">This form needs JavaScript. Run the free scan above instead — it needs nothing from us.</p></noscript>
+<noscript><p class="mut text-sm">This form needs JavaScript. The free scan above works without us.</p></noscript>
 </section>
 
 <footer class="mut text-xs flex justify-between"><span>shipcheck · stay shipped, stay shut</span><span><a href="/api/health" class="hover:text-white">health</a></span></footer>
@@ -124,18 +114,32 @@ summary{cursor:pointer;font-weight:700}
 async function runScan(){
   const url=document.getElementById('scanUrl').value.trim(), out=document.getElementById('scanOut'), btn=document.getElementById('scanBtn');
   if(!url){out.innerHTML='<span style="color:var(--amb)">Paste a URL first — e.g. https://your-app.com</span>';return;}
-  btn.disabled=true;out.innerHTML='<span class="spin"></span> <span class="mut">scanning public surface…</span>';
+  btn.disabled=true;out.innerHTML='<span class="spin"></span> <span class="mut">scanning public surface + JS bundles…</span>';
   try{
     const r=await fetch('/api/scan?url='+encodeURIComponent(url));
     const d=await r.json();
     if(!d.ok){out.innerHTML='<span style="color:var(--amb)">'+esc(d.error)+'</span>';return;}
     const col=d.grade==='SOLID'?'var(--grn)':d.grade==='AT RISK'?'var(--amb)':'var(--red)';
     let h='<p class="mb-3">GRADE for <b>'+esc(d.host)+'</b>: <b style="color:'+col+';font-size:1.2em">'+d.grade+'</b> <span class="mut">('+d.findings.length+' finding(s), public surface)</span></p>';
-    if(!d.findings.length)h+='<p style="color:var(--grn)">Clean public surface. The remaining risk is inside — database rules, bundle secrets, auth logic. That\u2019s the $99 audit.</p>';
+    if(!d.findings.length)h+='<p style="color:var(--grn)">Clean public surface. The remaining risk is inside — database rules, private code, auth logic. That\u2019s the $99 audit.</p>';
     d.findings.forEach(f=>{h+='<div class="finding"><span class="sev-'+f.sev+'">['+f.sev.toUpperCase()+']</span> <b>'+esc(f.check)+'</b><br><span class="mut">'+esc(f.detail)+'</span><br><code>'+esc(f.fix)+'</code></div>';});
-    h+='<p class="mut mt-3">'+esc(d.note)+' <a href="#intake" style="color:var(--grn)">Send it for a deep audit →</a></p>';
+    h+='<p class="mut mt-3">'+esc(d.note)+' <a href="#watch" style="color:var(--grn)">Watch this site weekly →</a> <a href="#intake" style="color:var(--grn)">or get the deep audit →</a></p>';
     out.innerHTML=h;
   }catch(e){out.innerHTML='<span style="color:var(--amb)">Scan failed to run — try again in a minute.</span>';}
+  finally{btn.disabled=false;}
+}
+async function watch(){
+  const host=document.getElementById('watchHost').value.trim(), out=document.getElementById('watchOut'), btn=document.getElementById('watchBtn');
+  if(!host){out.innerHTML='<span style="color:var(--amb)">Enter your hostname first.</span>';return;}
+  btn.disabled=true;out.innerHTML='<span class="spin"></span> <span class="mut">registering + running first scan…</span>';
+  try{
+    const r=await fetch('/api/projects',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({host})});
+    const d=await r.json();
+    if(!d.ok){out.innerHTML='<span style="color:var(--amb)">'+esc(d.error)+'</span>';return;}
+    const g=d.scan&&d.scan.grade?d.scan.grade:'?';
+    out.innerHTML='<b style="color:var(--grn)">Watching — first scan: '+esc(g)+
+      ' ('+(d.scan.findings||[]).length+' findings).</b><br><span class="mut">Dashboard (save it — key shown once):</span><br><a style="color:var(--grn)" href="'+esc(d.dashboard)+'">'+esc(d.dashboard)+'</a>';
+  }catch(e){out.innerHTML='<span style="color:var(--amb)">Could not register — retry in a minute.</span>';}
   finally{btn.disabled=false;}
 }
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}

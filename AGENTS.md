@@ -4,15 +4,16 @@
 
 ## What this is
 Shipcheck — go-live security audit + rescue + care for AI-built (vibe-coded) apps. Productized ladder: free instant self-check → Audit $99 (48h) → Rescue $299 (scoped fix, 48h or free) → Care $79/mo (monitoring + monthly re-check + 1 fix/mo).
-Stack: Node 20 + Express 4 (ESM), static frontend in `public/`, Dockerfile.
+Stack: Python 3.12 + FastAPI + Jinja/htmx-free server-rendered dashboard, Postgres (Dokploy `shipcheck-db`) with SQLite fallback, APScheduler weekly re-scans, single Dockerfile. Chosen on merit: Python owns the scanning ecosystem, I can verify it locally (no Node here — `pytest`), one container to operate.
 
 Why this, why now (Sep 2026, verified): ~89.5% of AI-built apps ship with vulnerabilities (SusVibes peer-reviewed), ~70% of Supabase-backed vibe apps miss RLS, ~25% leak a secret in the frontend bundle (CVE-2025-48757 exposed 170+ Lovable apps). Free scanners exist — we sell the fix + ongoing care, not the scan. Care-band pricing $25–$500/mo is normal (Teqri $25/50/129, full-service $95–195); $79 sits mid-band. Audit→retainer is the proven 90-day path (Apex Digital $12k/mo line from AI audits in 2026).
 
 ## Layout
-- `server.js` — serves `public/`, `GET /api/health`, `GET /api/config` (`auditLink`/`rescueLink`/`careLink`), `GET /api/scan?url=` (SSRF-guarded public-surface scan: TLS/headers/CORS/exposed files, rate-limited), `POST /api/intake` (logs `INTAKE <ref>` queue line to runtime logs)
-- `public/index.html` — security-console landing built around the LIVE scan demo, honest scope split, code-side self-check, redacted sample $99 report, pay-after-delivery pricing, process, FAQ, intake form
-- Intake fulfilment: `INTAKE` lines in Dokploy runtime logs (`application.readLogs`) + email once mailbox exists. Check logs daily.
-- `.env` — app keys only (infra lives in bus root `.env`), NOT in repo
+- `app/main.py` — routes: `/` landing, `/p/{id}` project dashboard (key-gated), `/api/health` (+db mode), `/api/config`, `/api/scan?url=`, `/api/projects` + `/api/projects/{id}/history`, `/api/intake`. Hourly APScheduler sweep re-scans due projects.
+- `app/scanner.py` — v3 engine: TLS/headers/CORS/exposed-files + JS-bundle secret mining + source-map + builder/backend fingerprinting. SSRF-guarded, rate-limited.
+- `app/store.py` — dual backend: Postgres (`DATABASE_URL`) with SQLite fallback. Tables: projects (key-hash authed), scans (history), intakes.
+- `templates/` landing + project dashboard, `static/style.css`, `tests/` (`pytest`, runs locally — no Node needed)
+- Intake fulfilment: `intakes` table + `INTAKE` runtime-log lines. Check both daily.
 - `.env.example` — app template
 
 ## Business mechanics

@@ -1,0 +1,26 @@
+:root{--bg:#0A0E13;--panel:#10161E;--line:#1E2836;--ink:#E8EEF5;--mut:#8B98AB;--grn:#34D399;--red:#F87171;--amb:#FBBF24}
+body{background:var(--bg);color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.btn{display:inline-block;padding:10px 18px;border-radius:8px;font-weight:700}
+.btn-grn{background:var(--grn);color:#06281C}.btn-ghost{border:1px solid var(--line);color:var(--ink)}
+.mut{color:var(--mut)}
+input.url{width:100%;background:#0D1219;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:12px 14px;font-family:inherit}
+.sev-critical{color:var(--red);font-weight:700}.sev-high{color:var(--amb);font-weight:700}.sev-medium{color:var(--amb)}.sev-low,.sev-info{color:var(--mut)}
+.finding{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.finding code{color:var(--grn)}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;cursor:pointer}
+.check input{margin-top:3px;accent-color:var(--grn)}
+form.intake input,form.intake textarea,form.intake select{width:100%;background:#0D1219;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:10px 12px;font-size:.9rem;font-family:inherit}
+pre.report{background:#0D1219;border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto;font-size:.8rem}
+details{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+summary{cursor:pointer;font-weight:700}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--grn);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-2px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-weight:700;font-size:.8em}
+.b-solid{background:rgba(52,211,153,.15);color:var(--grn)}
+.b-risk{background:rgba(251,191,36,.15);color:var(--amb)}
+.b-fail{background:rgba(248,113,113,.15);color:var(--red)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar>div{height:100%;background:var(--grn)}
+table.hist{width:100%;font-size:.85rem;border-collapse:collapse}
+table.hist td,table.hist th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
