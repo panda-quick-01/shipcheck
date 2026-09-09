@@ -5,6 +5,8 @@ from collections import defaultdict
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
+logging.basicConfig(level=logging.INFO)
+
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse

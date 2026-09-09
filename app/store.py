@@ -8,10 +8,13 @@ import asyncio
 import hashlib
 import hmac
 import json
+import logging
 import os
 import secrets as pysecrets
 import sqlite3
 from datetime import datetime, timezone
+
+log = logging.getLogger("shipcheck.store")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS projects (
@@ -65,8 +68,12 @@ async def init():
             async with _pool.acquire() as c:
                 await c.execute(SCHEMA)
             mode = "postgres"
+            log.info("store mode: postgres")
             return
-        except Exception:
+        except Exception as e:
+            # Never log the DSN (it holds the password). Class + host only.
+            log.warning("postgres unavailable (%s: %s) — sqlite fallback",
+                        type(e).__name__, str(e).split("@")[-1][:120])
             _pool = None
     os.makedirs(os.path.dirname(_db_path), exist_ok=True)
     await asyncio.to_thread(_sqlite_init)
