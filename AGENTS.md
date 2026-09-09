@@ -9,8 +9,9 @@ Stack: Node 20 + Express 4 (ESM), static frontend in `public/`, Dockerfile.
 Why this, why now (Sep 2026, verified): ~89.5% of AI-built apps ship with vulnerabilities (SusVibes peer-reviewed), ~70% of Supabase-backed vibe apps miss RLS, ~25% leak a secret in the frontend bundle (CVE-2025-48757 exposed 170+ Lovable apps). Free scanners exist — we sell the fix + ongoing care, not the scan. Care-band pricing $25–$500/mo is normal (Teqri $25/50/129, full-service $95–195); $79 sits mid-band. Audit→retainer is the proven 90-day path (Apex Digital $12k/mo line from AI audits in 2026).
 
 ## Layout
-- `server.js` — serves `public/`, `GET /api/health`, `GET /api/config` (`auditLink`/`rescueLink`/`careLink` from `STRIPE_AUDIT_LINK`/`STRIPE_RESCUE_LINK`/`STRIPE_CARE_LINK`)
-- `public/index.html` — security-console landing, free instant self-check (client-side checklist, honest — no fake remote scanning), pricing, mailto intake
+- `server.js` — serves `public/`, `GET /api/health`, `GET /api/config` (`auditLink`/`rescueLink`/`careLink`), `GET /api/scan?url=` (SSRF-guarded public-surface scan: TLS/headers/CORS/exposed files, rate-limited), `POST /api/intake` (logs `INTAKE <ref>` queue line to runtime logs)
+- `public/index.html` — security-console landing built around the LIVE scan demo, honest scope split, code-side self-check, redacted sample $99 report, pay-after-delivery pricing, process, FAQ, intake form
+- Intake fulfilment: `INTAKE` lines in Dokploy runtime logs (`application.readLogs`) + email once mailbox exists. Check logs daily.
 - `.env` — app keys only (infra lives in bus root `.env`), NOT in repo
 - `.env.example` — app template
 
