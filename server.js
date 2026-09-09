@@ -189,6 +189,10 @@ app.post("/api/intake", (req, res) => {
   res.json({ ok: true, ref, message: "Request logged. We reply within 24h with scope + start time." });
 });
 
+// Hidden paths must never fall through to the SPA page (that turns every
+// dotfile probe into a 200 and can mimic a real exposure).
+app.get(/\/\./, (req, res) => res.status(404).send("not found"));
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
