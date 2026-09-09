@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shipcheck — go-live security for AI-built apps</title>
+<meta name="description" content="Free instant self-check, $99 deep audit, $299 rescue, $79/mo care for vibe-coded apps. Ship without the breach.">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{--bg:#0A0E13;--panel:#10161E;--line:#1E2836;--ink:#E8EEF5;--mut:#8B98AB;--grn:#34D399;--red:#F87171;--amb:#FBBF24}
+body{background:var(--bg);color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.btn{display:inline-block;padding:10px 18px;border-radius:8px;font-weight:700}
+.btn-grn{background:var(--grn);color:#06281C}.btn-ghost{border:1px solid var(--line);color:var(--ink)}
+.mut{color:var(--mut)}.mono{font-family:inherit}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;cursor:pointer}
+.check input{margin-top:3px;accent-color:var(--grn)}
+.check small{color:var(--mut)}
+form.intake input,form.intake textarea{width:100%;background:#0D1219;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:10px 12px;font-size:.9rem;font-family:inherit}
+</style>
+</head>
+<body class="max-w-4xl mx-auto px-5 py-10">
+<header class="flex items-center justify-between mb-8">
+<div class="font-bold text-lg">$ shipcheck<span class="mut">_</span></div>
+<nav class="text-sm mut"><a href="#check" class="mr-4 hover:text-white">self-check</a><a href="#pricing" class="mr-4 hover:text-white">pricing</a><a href="#intake" class="hover:text-white">get audited</a></nav>
+</header>
+
+<section class="panel p-8 mb-6">
+<p class="mut text-sm mb-2">GO-LIVE SECURITY FOR AI-BUILT APPS</p>
+<h1 class="text-3xl md:text-4xl font-bold mb-3">Your AI wrote the app.<br>We make sure it doesn't leak.</h1>
+<p class="mut mb-5">Most AI-built apps ship with the doors open — missing access rules, leaked keys, anyone-can-read APIs. Run the free 2-minute self-check, then get a human-verified audit in 48 hours.</p>
+<div><a href="#check" class="btn btn-grn mr-3">Run free self-check</a><a href="#pricing" class="btn btn-ghost">Audit $99 →</a></div>
+<p class="mut text-xs mt-4">No signup. The checklist runs in your browser. Nothing leaves your machine.</p>
+</section>
+
+<section id="check" class="panel p-8 mb-6">
+<h2 class="text-xl font-bold mb-1">Free instant self-check</h2>
+<p class="mut text-sm mb-4">Tick what is true for your app. Be honest — this is triage, not a certificate. <span id="score" class="font-bold"></span></p>
+<div id="checks"></div>
+<div id="verdict" class="panel p-4 mt-4 text-sm" style="display:none"></div>
+</section>
+
+<section id="pricing" class="panel p-8 mb-6">
+<h2 class="text-xl font-bold mb-4">Fixed prices. 48 hours. No retainer required.</h2>
+<div class="grid md:grid-cols-3 gap-4">
+<div class="panel p-5"><p class="mut text-xs mb-1">DEEP AUDIT</p><p class="text-3xl font-bold">$99</p><p class="mut text-sm mb-3">one-time · 48h report</p><ul class="text-sm mut mb-4"><li>· Access-rule review (every table)</li><li>· Secret/keys-in-bundle sweep</li><li>· Auth + CORS + storage check</li><li>· Copy-paste fixes for your AI tool</li></ul><a data-pay="auditLink" class="btn btn-grn text-sm" href="#intake">Get audited</a></div>
+<div class="panel p-5" style="border-color:var(--grn)"><p class="mut text-xs mb-1">RESCUE — MOST WANTED</p><p class="text-3xl font-bold">$299</p><p class="mut text-sm mb-3">scoped fix · 48h or free</p><ul class="text-sm mut mb-4"><li>· Everything in Audit</li><li>· We apply the fixes with you</li><li>· Re-check before/after proof</li><li>· Launch-day support window</li></ul><a data-pay="rescueLink" class="btn btn-grn text-sm" href="#intake">Get rescued</a></div>
+<div class="panel p-5"><p class="mut text-xs mb-1">CARE</p><p class="text-3xl font-bold">$79<span class="text-base mut">/mo</span></p><p class="mut text-sm mb-3">stay shipped + stay shut</p><ul class="text-sm mut mb-4"><li>· Uptime + monthly re-check</li><li>· 1 scoped fix / month included</li><li>· New-table review on request</li><li>· Cancel anytime</li></ul><a data-pay="careLink" class="btn btn-ghost text-sm" href="#intake">Stay covered</a></div>
+</div>
+<p class="mut text-xs mt-4">Buttons activate when payment links are configured. Prefer email? Use the intake below.</p>
+</section>
+
+<section id="intake" class="panel p-8 mb-6">
+<h2 class="text-xl font-bold mb-1">Get audited</h2>
+<p class="mut text-sm mb-4">Tell us where the app lives and what it's built with. We reply within 24h with scope + start time. Rescue ships in 48h or it's free.</p>
+<form class="intake" action="mailto:checks@shipcheck.example?subject=Shipcheck%20audit%20request" method="post" enctype="text/plain">
+<div class="grid md:grid-cols-2 gap-3 mb-3"><input name="url" required placeholder="Live app URL"><input name="stack" placeholder="Stack (e.g. Lovable + Supabase)"></div>
+<textarea name="notes" rows="4" placeholder="What worries you? (logins, user data, payments, launch date…)"></textarea>
+<div class="mt-4"><button class="btn btn-grn text-sm" type="submit">Send audit request</button> <span class="mut text-xs ml-2">opens your mail app — nothing stored here</span></div>
+</form>
+</section>
+
+<footer class="mut text-xs flex justify-between"><span>shipcheck · stay shipped, stay shut</span><span><a href="/api/health" class="hover:text-white">health</a></span></footer>
+
+<script>
+const ITEMS=[
+["rls","RLS enabled on EVERY table with user data","Supabase: no table without policies. The #1 leak in AI-built apps."],
+["keys","No secret / service_role key in frontend code","Search your bundle for service_role, Stripe secret, OpenAI keys. Anon key in frontend is normal; secrets are not."],
+["policies","No USING (true) allow-all policies","AI loves allow-all when stuck. Every policy must check ownership, e.g. auth.uid() = user_id."],
+["anon","Anonymous users get nothing they shouldn't","Open an incognito window / query as anon. Reads AND writes must fail where they should."],
+["cors","CORS is allowlisted, not *","Access-Control-Allow-Origin: * plus credentials = any site can call your API as your users."],
+["storage","Storage buckets have access rules","Uploads test: can a stranger read or overwrite another user's files?"],
+["auth","Every CRUD endpoint checks ownership","Logged-in ≠ authorized. /api/invoice/:id must verify the invoice belongs to req.user."],
+["backup","You can roll back (backups + key rotation plan)","Daily backups verified, and you know how to rotate a leaked key in minutes."]
+];
+const box=document.getElementById('checks'),score=document.getElementById('score'),verdict=document.getElementById('verdict');
+ITEMS.forEach(([id,t,s],i)=>{const l=document.createElement('label');l.className='check';l.innerHTML=`<input type="checkbox" data-i="${i}"><span><b>${t}</b><br><small>${s}</small></span>`;box.appendChild(l);});
+function render(){const c=[...box.querySelectorAll('input')];const n=c.filter(x=>x.checked).length;score.textContent=`${n}/${ITEMS.length} safe`;verdict.style.display='block';
+if(n===ITEMS.length)verdict.innerHTML='<b style="color:var(--grn)">Clean sweep.</b> <span class="mut">Still want proof before launch? The $99 audit gives you a verified report + fixes.</span>';
+else if(n>=6)verdict.innerHTML=`<b style="color:var(--amb)">${ITEMS.length-n} gap(s) open.</b> <span class="mut">The $99 audit closes exactly these — report + copy-paste fixes in 48h.</span>`;
+else verdict.innerHTML=`<b style="color:var(--red)">${ITEMS.length-n} gaps open — do not launch with user data yet.</b> <span class="mut">Send the intake below; Rescue ($299) fixes + re-checks in 48h or it's free.</span>`;}
+box.addEventListener('change',render);render();
+fetch('/api/config').then(r=>r.json()).then(c=>{document.querySelectorAll('[data-pay]').forEach(a=>{const u=c[a.dataset.pay];if(u)a.href=u;});}).catch(()=>{});
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "shipcheck",
+  "version": "1.0.0",
+  "description": "Shipcheck — go-live security audits + rescue + care for AI-built apps.",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
